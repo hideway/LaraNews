@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostValidator;
+use App\Post;
 
 class PostController extends Controller
 {
@@ -13,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+       $data = Post::paginate(1);
+       return view('post.index', ['data' => $data]);
     }
 
     /**
@@ -23,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -32,9 +35,10 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostValidator $request)
     {
-        //
+        Post::create($request->only('name', 'slug', 'content', 'online'))->save();
+        return redirect('/');
     }
 
     /**
@@ -45,7 +49,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Post::find($id);
+        if(! $data){
+            return abort(404);
+        }
+        return view('post.show', ['data' => $data]);   
     }
 
     /**
@@ -56,7 +64,11 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Post::find($id);
+        if(! $data){
+            return abort(404);
+        }
+        return view('post.edit', ['data' => $data]); 
     }
 
     /**
@@ -66,9 +78,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostValidator $request, $id)
     {
-        //
+        $data = Post::find($id);
+        if(! $data) {
+            return aboirt(404);
+        }
+        $data->update($request->only('name', 'slug', 'content', 'online'));
     }
 
     /**
