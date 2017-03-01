@@ -1,11 +1,9 @@
 <div class="blog-masthead">
   <div class="container">
     <nav class="blog-nav">
-      <a class="blog-nav-item active" href="#">Home</a>
-      <a class="blog-nav-item" href="#">New features</a>
-      <a class="blog-nav-item" href="#">Press</a>
-      <a class="blog-nav-item" href="#">New hires</a>
-      <a class="blog-nav-item" href="#">About</a>
+      @foreach($nav as $n)
+      	<a class="blog-nav-item {{ (Request::path() == $n->slug) ? 'active' : '' }}" href="/{{ $n->slug }}">{{ ucfirst($n->slug) }}</a>
+      @endforeach
     </nav>
   </div>
 </div>

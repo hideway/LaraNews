@@ -2,9 +2,11 @@
 
 @section('content')
 
+
+@if($page->body === null)
   <div class="blog-header">
-        <h1 class="blog-title">The Bootstrap Blog</h1>
-        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+        <h1 class="blog-title">{{ $page->title }}</h1>
+        <p class="lead blog-description">{{ $page->description }}</p>
       </div>
 
       <div class="row">
@@ -29,4 +31,28 @@
 
     </div><!-- /.container -->
 	
+@else
+ <div class="blog-header">
+        <h1 class="blog-title">{{ $page->title }}</h1>
+        <p class="lead blog-description">{{ $page->description }}</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          <div class="blog-post">
+            <h2 class="blog-post-title">last title</h2>
+          </div>
+          {{ $page->body }}
+
+        </div><!-- /.blog-main -->
+
+        @include('elements.sidebar')
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+@endif
+
 @endsection
