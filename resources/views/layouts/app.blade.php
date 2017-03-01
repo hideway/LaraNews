@@ -1,55 +1,87 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="{{ $page->description }}">
-    <meta name="author" content="">
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
 
-    <title>Blog {{ $page->title }}</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Bootstrap core CSS -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="{{ asset('css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="{{ asset('js/ie8-responsive-file-warning.js') }}"></script><![endif]-->
-    <script src="{{ asset('js/ie-emulation-modes-warning.js') }}"></script>
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                </div>
 
-  <body>
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav">
+                        &nbsp;
+                    </ul>
 
-  @include('elements.nav')
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- Authentication Links -->
+                        @if (Auth::guest())
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
 
-    <div class="container">
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
 
-    @yield('content')
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-    @include('elements.footer')
+        @yield('content')
+    </div>
 
-     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{{ asset('js/jquery.min.js') }}"><\/script>')</script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="{{ asset('js/ie10-viewport-bug-workaround.js') }}"></script>
-    @yield('script')
-
-  </body>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+</body>
 </html>

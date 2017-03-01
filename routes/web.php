@@ -16,3 +16,6 @@ Route::resource('posts', 'PostController');
 Route::get('{slug?}', [
     'uses' => 'PageController@index' 
 ])->where('slug', '([A-Za-z0-9\-\/]+)');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
